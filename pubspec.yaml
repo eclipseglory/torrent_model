@@ -1,0 +1,15 @@
+name: torrent_model
+description: Torrent file parser.
+version: 0.0.1
+#homepage: https://github.com/eclipseglory/torrent_parser
+github: https://github.com/eclipseglory/torrent_parser
+
+
+environment:
+  sdk: '>=2.10.0 <3.0.0'
+
+dependencies:
+ bencode_dart: ^1.0.1
+
+dev_dependencies:
+  test: ^1.14.4
