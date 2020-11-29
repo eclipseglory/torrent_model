@@ -1,22 +1,27 @@
 A Dart library for parsing .torrent file to Torrent model/saving Torrent model to .torrent file.
 
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
-
 ## Usage
 
 A simple usage example:
 
+### Parse .torrent file
+
 ```dart
-import 'package:torrent_model/torrent_parser.dart';
+import 'package:torrent_model/torrent_model.dart';
 
 main() {
-  var awesome = new Awesome();
+  ....
+
+  var model = Torrent.parse('some.torrent');
+
+  ....
 }
 ```
+
+Use ```Torrent``` class' static method ```parse``` to get a torrent model. The important informations of .torrent file can be found in the torrent model , such as ```announces``` list , ```infoHash``` ,etc..
 
 ## Features and bugs
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: http://example.com/issues/replaceme
+[tracker]: https://github.com/eclipseglory/torrent_model/issues

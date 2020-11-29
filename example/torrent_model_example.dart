@@ -1,4 +1,3 @@
-import 'package:torrent_model/src/torrent.dart';
 import 'package:torrent_model/torrent_model.dart';
 
 void main() async {

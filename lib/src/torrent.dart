@@ -15,8 +15,9 @@ const PATH_SEPRATOR = '\\\\';
 /// Torrent File Structure Model.
 ///
 /// See [Torrent file structure](https://wiki.theory.org/BitTorrentSpecification#Metainfo_File_Structure)
+/// 
+/// See [JS Parse Torrent](https://github.com/webtorrent/parse-torrent)
 class Torrent {
-  /// decode .torrent file info object
   ///
   /// 这是为了能够重新生成torrent文件而准备的，因为解析出来的info会在生成模型的时候有所忽略
   /// ，如果直接用模型再此生成torrent文件，那么原本的info信息会不一致，再次解析就会无法获取
@@ -111,7 +112,7 @@ class Torrent {
   }
 
   @override
-  String toString() {
+  String toString(){
     return 'Torrent Model{name:$name,InfoHash:$infoHash}';
   }
 
@@ -377,15 +378,6 @@ Uint8List _torrentModel2Bytebuffer(Torrent torrentModel) {
 
   return bencoding.encode(torrent);
 }
-
-// /**
-//  * Check if `obj` is a W3C `Blob` or `File` object
-//  * @param  {*} obj
-//  * @return {boolean}
-//  */
-// function isBlob (obj) {
-//   return typeof Blob !== 'undefined' && obj instanceof Blob
-// }
 
 int _sumLength(sum, file) {
   return sum + file['length'];
