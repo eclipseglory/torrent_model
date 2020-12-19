@@ -1,8 +1,8 @@
 import 'package:torrent_model/torrent_model.dart';
 
 void main() async {
-  readAndSave('./example/sample.torrent', './example/sample2.torrent');
-  readAndSave('./example/sample3.torrent', './example/sample4.torrent');
+  readAndSave('example/sample.torrent', 'example/sample2.torrent');
+  readAndSave('example/sample3.torrent', 'example/sample4.torrent');
 }
 
 void readAndSave(String path, String newPath) async {

@@ -15,7 +15,7 @@ const PATH_SEPRATOR = '\\\\';
 /// Torrent File Structure Model.
 ///
 /// See [Torrent file structure](https://wiki.theory.org/BitTorrentSpecification#Metainfo_File_Structure)
-/// 
+///
 /// See [JS Parse Torrent](https://github.com/webtorrent/parse-torrent)
 class Torrent {
   ///
@@ -72,6 +72,9 @@ class Torrent {
 
   bool private;
 
+  /// DHT nodes
+  List<Uri> nodes = [];
+
   final List<String> _pieces = [];
 
   List<String> get pieces => _pieces;
@@ -112,7 +115,7 @@ class Torrent {
   }
 
   @override
-  String toString(){
+  String toString() {
     return 'Torrent Model{name:$name,InfoHash:$infoHash}';
   }
 
@@ -239,14 +242,6 @@ void _checkFile(Map torrent) {
 Torrent parseTorrentFileContent(Uint8List fileBytes) {
   var torrent = bencoding.decode(fileBytes);
   if (torrent == null) return null;
-  // TODO parse nodes property
-  // var nodes = torrent['nodes'];
-  // if(nodes!=null){
-  //   for(var node in nodes){
-  //     var u = node[0];
-  //     print(String.fromCharCodes(u));
-  //   }
-  // }
   // check the file is correct
   _checkFile(torrent);
 
@@ -279,9 +274,13 @@ Torrent parseTorrentFileContent(Uint8List fileBytes) {
   if ((torrent['announce-list'] is List) &&
       torrent['announce-list'].length > 0) {
     torrent['announce-list'].forEach((urls) {
-      urls.forEach((url) {
-        torrentModel.addAnnounce(Uri.parse(utf8.decode(url)));
-      });
+      if (urls[0] != null && urls[0] is List) {
+        urls.forEach((url) {
+          torrentModel.addAnnounce(Uri.parse(utf8.decode(url)));
+        });
+      } else {
+        torrentModel.addAnnounce(Uri.parse(utf8.decode(urls)));
+      }
     });
   } else if (torrent['announce'] != null) {
     torrentModel.addAnnounce(Uri.parse(utf8.decode(torrent['announce'])));
@@ -335,6 +334,22 @@ Torrent parseTorrentFileContent(Uint8List fileBytes) {
   }
   var pices = _splitPieces(torrent['info']['pieces']);
   pices.forEach((piece) => torrentModel.addPiece(piece));
+
+  // BEP 0005 , DHT nodes"
+  if (torrent['nodes'] != null) {
+    var ns = torrent['nodes'];
+    ns.forEach((node) {
+      if (node[0] == null || node[1] == null) return;
+      var ipstr;
+      try {
+        ipstr = utf8.decode(node[0]);
+      } catch (e) {
+        ipstr = String.fromCharCodes(node[0]);
+      }
+      var port = node[1];
+      torrentModel.nodes.add(Uri(host: ipstr, port: port));
+    });
+  }
 
   return torrentModel;
 }
