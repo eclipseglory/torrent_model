@@ -1,6 +1,6 @@
 name: torrent_model
 description: A Dart library for parsing .torrent file to Torrent model/saving Torrent model to .torrent file.
-version: 1.0.2
+version: 1.0.3
 #homepage: https://github.com/eclipseglory/torrent_parser
 repository: https://github.com/eclipseglory/torrent_model
 issue_tracker: https://github.com/eclipseglory/torrent_model/issues
@@ -11,7 +11,7 @@ environment:
 
 dependencies:
  crypto: ^2.1.5
- bencode_dart: ^1.0.1
+ bencode_dart: ^1.0.2
 
 dev_dependencies:
   test: ^1.14.4

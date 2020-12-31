@@ -253,7 +253,7 @@ Torrent parseTorrentFileContent(Uint8List fileBytes) {
       torrent['info'], torrentName, sha1Info.toString(), sha1Info.bytes);
 
   if (torrent['encoding'] != null) {
-    torrentModel.encoding = String.fromCharCodes(torrent['encoding']);
+    torrentModel.encoding = _decodeString(torrent['encoding']);
   }
 
   if (torrent['info']['private'] != null) {
@@ -271,6 +271,7 @@ Torrent parseTorrentFileContent(Uint8List fileBytes) {
     torrentModel.comment = _decodeString(torrent['comment']);
   }
 
+  /// BEP 0012
   if ((torrent['announce-list'] is List) &&
       torrent['announce-list'].length > 0) {
     torrent['announce-list'].forEach((urls) {
@@ -340,12 +341,7 @@ Torrent parseTorrentFileContent(Uint8List fileBytes) {
     var ns = torrent['nodes'];
     ns.forEach((node) {
       if (node[0] == null || node[1] == null) return;
-      var ipstr;
-      try {
-        ipstr = utf8.decode(node[0]);
-      } catch (e) {
-        ipstr = String.fromCharCodes(node[0]);
-      }
+      var ipstr = _decodeString(node[0]);
       var port = node[1];
       torrentModel.nodes.add(Uri(host: ipstr, port: port));
     });
