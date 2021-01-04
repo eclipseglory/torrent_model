@@ -272,30 +272,52 @@ Torrent parseTorrentFileContent(Uint8List fileBytes) {
   }
 
   /// BEP 0012
-  if ((torrent['announce-list'] is List) &&
-      torrent['announce-list'].length > 0) {
-    torrent['announce-list'].forEach((urls) {
-      if (urls[0] != null && urls[0] is List) {
-        urls.forEach((url) {
-          torrentModel.addAnnounce(Uri.parse(utf8.decode(url)));
-        });
-      } else {
-        torrentModel.addAnnounce(Uri.parse(utf8.decode(urls)));
-      }
-    });
-  } else if (torrent['announce'] != null) {
-    torrentModel.addAnnounce(Uri.parse(utf8.decode(torrent['announce'])));
+  var announceList = torrent['announce-list'];
+  if (announceList != null && announceList is Iterable) {
+    if (announceList.isNotEmpty) {
+      announceList.forEach((urls) {
+        // 有些是一组数组
+        if (urls[0] != null && urls[0] is List) {
+          urls.forEach((url) {
+            try {
+              var aurl = Uri.parse(_decodeString(url));
+              if (aurl != null) torrentModel.addAnnounce(aurl);
+            } catch (e) {
+              //
+            }
+          });
+        } else {
+          try {
+            var aurl = Uri.parse(_decodeString(urls));
+            if (aurl != null) torrentModel.addAnnounce(aurl);
+          } catch (e) {
+            //
+          }
+        }
+      });
+    }
+  }
+  if (torrent['announce'] != null) {
+    try {
+      var aurl = Uri.parse(_decodeString(torrent['announce']));
+      if (aurl != null) torrentModel.addAnnounce(aurl);
+    } catch (e) {
+      //
+    }
   }
 
   // handle url-list (BEP19 / web seeding)
-  if (torrent['url-list'] is Uint8List) {
-    // some clients set url-list to empty string
-    torrent['url-list'] =
-        torrent['url-list'].length > 0 ? [torrent['url-list']] : [];
+  if (torrent['url-list'] != null && torrent['url-list'] is Iterable) {
+    var urlList = torrent['url-list'] as Iterable;
+    urlList.forEach((url) {
+      try {
+        var aurl = Uri.parse(_decodeString(url));
+        if (aurl != null) torrentModel.addURL(aurl);
+      } catch (e) {
+        //
+      }
+    });
   }
-  var tempUrlList = torrent['url-list'] ?? [];
-  tempUrlList
-      .forEach((url) => torrentModel.addURL(Uri.parse(_decodeString(url))));
 
   var files = torrent['info']['files'] ?? [torrent['info']];
   var tempfiles = [];

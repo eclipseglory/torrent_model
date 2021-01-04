@@ -1,5 +1,10 @@
 A Dart library for parsing .torrent file to Torrent model/saving Torrent model to .torrent file.
 
+## Support 
+- [BEP 0005 DHT Protocol](https://www.bittorrent.org/beps/bep_0005.html)
+- [BEP 0012 Multitracker Metadata Extension](https://www.bittorrent.org/beps/bep_0012.html)
+- [BEP 0019 WebSeed - HTTP/FTP Seeding (GetRight style)](https://www.bittorrent.org/beps/bep_0019.html)
+
 ## Usage
 
 A simple usage example:
