@@ -68,7 +68,7 @@ class Torrent {
 
   int pieceLength;
 
-  int lastPriceLength;
+  int lastPieceLength;
 
   bool private;
 
@@ -349,11 +349,11 @@ Torrent parseTorrentFileContent(Uint8List fileBytes) {
 
   var lastTorrentFile = torrentModel.files.last;
   torrentModel.pieceLength = torrent['info']['piece length'];
-  torrentModel.lastPriceLength =
+  torrentModel.lastPieceLength =
       (lastTorrentFile.offset + lastTorrentFile.length) %
           torrentModel.pieceLength;
-  if (torrentModel.lastPriceLength == 0) {
-    torrentModel.lastPriceLength = torrentModel.pieceLength;
+  if (torrentModel.lastPieceLength == 0) {
+    torrentModel.lastPieceLength = torrentModel.pieceLength;
   }
   var pices = _splitPieces(torrent['info']['pieces']);
   pices.forEach((piece) => torrentModel.addPiece(piece));
