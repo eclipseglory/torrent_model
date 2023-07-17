@@ -17,15 +17,15 @@ void printModelInfo(Torrent model) {
   print('${model.filePath} Info Hash : ${model.infoHash}');
   print('${model.filePath} announces :');
   for (var announce in model.announces) {
-    print('${announce}');
+    print('$announce');
   }
   print('DHT nodes:');
-  model.nodes.forEach((element) {
+  for (var element in model.nodes) {
     print(element);
-  });
+  }
 
   print('${model.filePath} files :');
   for (var file in model.files) {
-    print('${file}');
+    print('$file');
   }
 }
