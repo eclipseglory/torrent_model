@@ -4,9 +4,9 @@ import 'package:torrent_model/torrent_model.dart';
 const PATH = './test/';
 
 void main() {
-  /// 测试文件的magneto id：588E1129AE56386B02C67DA8FA3F0E04025D031D
+  /// Magnet URI id：588E1129AE56386B02C67DA8FA3F0E04025D031D
   test('Test parse torrent file from a file', () async {
-    // 如果换了文件，请注意将下面的验证信息一起改掉
+    // If the file is changed, please remember to modify the verification information below accordingly.
     var result = await Torrent.parse('${PATH}sample.torrent');
     assert(result.infoHash == '588e1129ae56386b02c67da8fa3f0e04025d031d');
     assert(result.announces.length == 132);

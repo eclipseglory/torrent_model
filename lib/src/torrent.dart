@@ -19,9 +19,9 @@ const PATH_SEPRATOR = '\\\\';
 /// See [JS Parse Torrent](https://github.com/webtorrent/parse-torrent)
 class Torrent {
   ///
-  /// 这是为了能够重新生成torrent文件而准备的，因为解析出来的info会在生成模型的时候有所忽略
-  /// ，如果直接用模型再此生成torrent文件，那么原本的info信息会不一致，再次解析就会无法获取
-  /// 正确的sha1信息。
+  /// This is prepared to be able to regenerate the torrent file because the parsed "info" will be partially ignored during the model generation process.
+  /// If we directly use the model to generate the torrent file, the original "info" information will be inconsistent, and when parsing again, we won't be able to obtain
+  /// the correct SHA1 information.
   ///
   dynamic get info => _info;
 
@@ -159,7 +159,7 @@ class Torrent {
   }
 }
 
-/// IO操作太耗时间，用隔离来做
+/// IO operations are too time-consuming, use isolate to handle them.
 Future<T> _compution<T>(
     void Function(Map<String, dynamic>) mainMethod, dynamic data) {
   var complete = Completer<T>();
@@ -274,7 +274,7 @@ Torrent? parseTorrentFileContent(Uint8List fileBytes) {
   if (announceList != null && announceList is Iterable) {
     if (announceList.isNotEmpty) {
       for (var urls in announceList) {
-        // 有些是一组数组
+        // Some are list of urls
         if (urls[0] != null && urls[0] is List) {
           urls.forEach((url) {
             try {
@@ -376,7 +376,7 @@ Torrent? parseTorrentFileContent(Uint8List fileBytes) {
   return torrentModel;
 }
 
-/// 用torrent模型生成map，然后encode出byte buffer
+/// Use the torrent model to generate a map, then encode it into a byte buffer."
 Uint8List _torrentModel2Bytebuffer(Torrent torrentModel) {
   var torrent = {'info': torrentModel.info};
   var announce = torrentModel.announces;
