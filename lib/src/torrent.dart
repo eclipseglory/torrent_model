@@ -212,7 +212,13 @@ void _process(Map<String, dynamic> data) async {
   if (bytes == null || bytes.isEmpty) {
     throw Exception('file path/contents is empty');
   }
-  var result = parseTorrentFileContent(bytes);
+  var torrent = bencoding.decode(bytes);
+  if (torrent == null) {
+    sender.send(null);
+    return;
+  }
+  var result = parseTorrentFileContent(torrent);
+
   sender.send(result);
 }
 
@@ -237,9 +243,7 @@ void _checkFile(Map torrent) {
 }
 
 /// Parse file bytes content ,return torrent file model
-Torrent? parseTorrentFileContent(Uint8List fileBytes) {
-  var torrent = bencoding.decode(fileBytes);
-  if (torrent == null) return null;
+Torrent? parseTorrentFileContent(Map<String, dynamic> torrent) {
   // check the file is correct
   _checkFile(torrent);
 
@@ -420,13 +424,12 @@ int _sumLength(sum, file) {
   return sum + file['length'];
 }
 
-List _splitPieces(List buf) {
-  var pieces = [];
+List<String> _splitPieces(Uint8List buf) {
+  var pieces = <String>[];
   for (var i = 0; i < buf.length; i += 20) {
     var array = buf.sublist(i, i + 20);
     var str = array.fold<String>('', (previousValue, byte) {
-      var hex = byte.toRadixString(16);
-      if (hex.length != 2) hex = '0$hex';
+      var hex = byte.toRadixString(16).padLeft(2, '0');
       return previousValue + hex;
     });
     pieces.add(str);
