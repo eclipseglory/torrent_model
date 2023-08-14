@@ -1,4 +1,4 @@
-import 'package:torrent_model/torrent_model.dart';
+import 'package:dtorrent_parser/dtorrent_parser.dart';
 
 void main() async {
   readAndSave('example/test.torrent', 'example/test2.torrent');

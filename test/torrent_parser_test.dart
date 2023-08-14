@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:torrent_model/torrent_model.dart';
+import 'package:dtorrent_parser/dtorrent_parser.dart';
 
 const PATH = './test/';
 

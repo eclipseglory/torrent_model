@@ -4,7 +4,7 @@ import 'dart:io';
 import 'dart:isolate';
 import 'dart:typed_data';
 
-import 'package:bencode_dart/bencode_dart.dart' as bencoding;
+import 'package:b_encode_decode/b_encode_decode.dart' as bencoding;
 import 'package:crypto/crypto.dart';
 
 import 'torrent_file.dart';
