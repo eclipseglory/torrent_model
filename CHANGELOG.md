@@ -19,3 +19,6 @@
 
 ## 1.0.5
 - pub.dev fixes
+
+## 1.0.6
+- more pub.dev fixes
