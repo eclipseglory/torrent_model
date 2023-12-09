@@ -12,7 +12,7 @@ A simple usage example:
 ### Parse .torrent file
 
 ```dart
-import 'package:torrent_model/torrent_model.dart';
+import 'package:dtorrent_parser/dtorrent_parser.dart';
 
 main() {
   ....
@@ -29,4 +29,4 @@ Use ```Torrent``` class' static method ```parse``` to get a torrent model. The i
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: https://github.com/eclipseglory/torrent_model/issues
+[tracker]: https://github.com/moham96/dtorrent_parser/issues

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 ///
 /// Torrent file description
 ///
@@ -14,6 +16,10 @@ class TorrentFile {
   /// file offset
   final int offset;
   TorrentFile(this.name, this.path, this.length, this.offset);
+
+  String toJson() {
+    return jsonEncode({'length': length, 'path': path});
+  }
 
   @override
   String toString() {
